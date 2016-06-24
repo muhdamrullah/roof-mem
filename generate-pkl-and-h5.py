@@ -25,9 +25,17 @@ for cls in classes:
 	imgs = os.listdir(fi + cls)
 	for img in imgs:
 		im = ndimage.imread(fi + cls + '/' + img)
-		set_x.append(im)
-		set_y.append(k)
-	k +=1
+		# Create sets
+for cls in classes:
+        list_classes.append(cls)
+        imgs = os.listdir(fi + cls)
+        for img in imgs:
+                im = ndimage.imread(fi + cls + '/' + img)
+                im = im.ravel()
+#               print im.shape
+                set_x.append(im)
+                set_y.append(k)
+        k +=1
 
 # sets to numpy arrays
 set_x = np.array(set_x)
@@ -54,16 +62,15 @@ f.create_dataset('valid_set_x', data=valid_set_x)
 f.create_dataset('valid_set_y', data=valid_set_y)
 f.create_dataset('list_classes', data=list_classes)
 
-# Create Pickle file similar to MNIST
-
 train_set = train_set_x, train_set_y
 print 'Type of train_set_x',type(train_set_x)
-print train_set_x
+print 'Creating Pickle File'
+train_set = train_set_x, train_set_y
 valid_set = valid_set_x, valid_set_y
-test_set = test_set_x, valid_set_y
+test_set = test_set_x, test_set_y
 
 pickle_dataset = [train_set, valid_set, test_set]
 
 g = gzip.open('data.pkl.gz','wb')
-pickle.dump(pickle_dataset, f, protocol=2)
+pickle.dump(pickle_dataset, g, protocol=2)
 g.close()
