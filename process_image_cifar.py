@@ -38,6 +38,14 @@ for cls in classes:
                 set_x.append(new_im)
                 set_y.append(k)
         k +=1
+########################################
+#Randomize both list
+
+set_both = list(zip(set_x, set_y))
+random.shuffle(set_both)
+set_x, set_y = zip(*set_both)
+
+#########################################
 
 set_x = np.array(new_im, np.uint8)
 print set_x.shape
