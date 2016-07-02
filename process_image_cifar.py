@@ -5,9 +5,10 @@ import os
 from scipy import ndimage
 import cPickle as pickle
 import gzip
+import scipy
 
 if len(sys.argv) < 2:
-    print "Usage: python process_single.py input_folder"
+    print "Usage: python process_single.py input_folder/"
     exit(1)
 
 # input folder
@@ -26,8 +27,9 @@ for cls in classes:
         list_classes.append(cls)
         imgs = os.listdir(fi + cls)
         for img in imgs:
-                im = Image.open(fi + cls + '/' + img)
-                im = (np.array(im))
+                im = ndimage.imread(fi + cls + '/' + img)
+                # To resize any image to 32 x 32
+                im = scipy.misc.imresize(im,(32,32)) 
                 r = im[:,:,0].flatten()
                 g = im[:,:,1].flatten()
                 b = im[:,:,2].flatten()
